@@ -3,9 +3,43 @@
 {% block content %}
 <div class="container py-5">
     <h2 class="text-center text-primary fw-bold mb-4">Histórico de Pagamentos</h2>
-    
+
+    <!-- Display Current Date -->
+    <div class="text-center mb-4">
+        <span class="badge bg-info fs-5 p-3 shadow-sm">{{ current_date }}</span>
+    </div>
+
+    <!-- Filter by Date Form -->
+    <div class="mb-4 d-flex flex-column align-items-center gap-3">
+        <div>
+            <form method="post" class="d-flex justify-content-center gap-2">
+                {% csrf_token %}
+                <button type="submit" name="daily_payments" class="btn btn-{% if button_day %}{{button_day}}{% else %}primary{% endif %}">Hoje</button>
+                <button type="submit" name="monthly_payments" class="btn btn-{% if button_day %}{{button_month}}{% else %}secondary{% endif %}">Mês</button>
+            </form>
+        </div>
+        
+        <form method="post" class="d-flex justify-content-center gap-2">
+            {% csrf_token %}
+            <input type="date" name="date" class="form-control w-auto">
+            <button type="submit" class="btn btn-primary">Filtrar por Data</button>
+        </form>
+
+        <div class="btn-group">
+            <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+              Método de Pagamento 
+            </button>
+            <ul class="dropdown-menu">
+                {% for method in payment_methods %}
+                <li><a class="dropdown-item" href="#">{{method}}</a></li>
+                {% endfor %}
+            </ul>
+          </div>
+    </div>
+
     <div class="text-center mb-4">
         <span class="badge bg-success fs-5 p-2">Total de Pagamentos: {{ payments_quantity }}</span>
+        <span class="badge bg-warning fs-5 p-2">Total Pago: {{ payments_total_sum }}</span>
     </div>
     
     <div class="table-responsive">
