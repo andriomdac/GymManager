@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="d-flex flex-column flex-md-row p-4 gap-4 py-md-5 align-items-center justify-content-center w-100">
+    <div class="card shadow-lg rounded-4 border-0 overflow-hidden" style="max-width: 400px;">
+        {% include 'components/_messages.html' %}
+
+        <!-- Payment Details Card -->
+            <div class="card-body text-center py-4">
+                <h5 class="fw-bold text-primary mb-3">Detalhes do Pagamento</h5>
+                <div class="d-flex align-items-center justify-content-center mb-3">
+                    <i class="bi bi-wallet2 text-success" style="font-size: 3rem;"></i>
+                </div>
+                <h6 class="fw-semibold text-dark mb-1">{{ payment.student }}</h6>
+                <p class="text-muted mb-1">Data: <strong>{{ payment.payment_date }}</strong></p>
+                <p class="text-primary mb-1">Próximo Pagamento: <strong>{{ payment.next_payment_date }}</strong></p>
+                <p class="text-success d-block">Pacote: <strong>{{ payment.payment_package }}</strong></p>
+            </div>
+        <div class="card-body py-4">
+            <h5 class="fw-bold text-primary text-center mb-4">Formas de Pagamento</h5>            
+            <ul class="list-group mb-4">
+                {% for payment_value in payment_values %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <span class="btn btn-warning rounded-pill"><strong>{{ payment_value.method }}:</strong> {{ payment_value.value }}</span>
+                        <form method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="payment_value_id" value="{{payment_value.pk}}">
+                            <button type="submit" name="delete_value" value="{{payment_value.pk}}" class="btn btn-danger rounded-pill"><i class="bi bi-trash-fill"></i></button>
+                        </form>
+                    </li>
+                {% endfor %}
+                <li class="list-group-item d-flex justify-content-between align-items-center bg-light fw-bold">
+                    <span class="text-primary">Total</span>
+                    <span class="badge bg-primary px-3 py-2 rounded-pill">{{ values_total }}</span>
+                </li>
+            </ul>
+            {% if values_total %}
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" name="confirm_payment" class="btn btn-success w-100 py-2 fw-semibold rounded-pill">
+                    <i class="bi bi-check-circle me-1"></i> Confirmar Pagamento
+                </button>
+            </form>
+            {% endif %}
+            <br>
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Forma</label>
+                    {{ form.method }}
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Valor</label>
+                    {{ form.value }}
+                </div>
+                <button type="submit" class="btn bg-primary text-light w-100 py-2 fw-semibold rounded-pill">
+                    <i class="bi bi-check-circle me-1"></i> Adicionar Forma de Pagamento
+                </button>
+            </form>
+            <br>
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" name="cancel_payment" class="btn bg-danger text-light w-100 py-2 fw-semibold rounded-pill">
+                    <i class="bi bi-check-circle me-1"></i> Cancelar Pagamento
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

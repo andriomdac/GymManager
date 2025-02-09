@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="d-flex flex-column flex-md-row p-4 gap-4 py-md-5 align-items-center justify-content-center w-100">
+
+    <!-- Payment Form Card -->
+    <div class="card shadow-lg rounded-4 border-0 overflow-hidden" style="max-width: 400px;">
+        {% include 'components/_messages.html' %}
+        {% include '_student_info.html' %}
+
+        <div class="card-body py-4">
+            <h5 class="fw-bold text-primary text-center mb-4">Novo Pagamento</h5>
+
+            <form method="post">
+                {% csrf_token %}
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Data de Pagamento</label>
+                    {{ form.payment_date }}
+                </div>                
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Pacote de Pagamento</label>
+                    {{ form.payment_package }}
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Observações</label>
+                    {{ form.observations }}
+                </div>
+
+                <button type="submit" class="btn btn-success w-100 py-2 fw-semibold rounded-pill">
+                    <i class="bi bi-check-circle me-1"></i> Continuar para Forma de Pagamento
+                </button>
+            </form>
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" name="cancel_payment" class="btn btn-outline-secondary w-100 mt-2 py-2 rounded-pill">
+                    <i class="bi bi-x-circle me-1"></i> Cancelar
+                </button>
+
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

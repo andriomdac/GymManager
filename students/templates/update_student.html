@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-5 d-flex flex-column align-items-center">
+    <h2 class="text-center text-primary fw-bold mb-4">Editar Informações do Aluno</h2>
+    
+    <div class="col-md-6">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{message.tags}} text-center" role="alert">
+                    {{message}}
+                </div>
+            {% endfor %}
+        {% endif %}
+        
+        <div class="card shadow-lg rounded p-4">
+            <form method="post">
+                {% csrf_token %}
+                
+                <div class="mb-3">
+                    <label for="student_name" class="form-label fw-semibold">Nome</label>
+                    {{ form.name }}
+                </div>
+                
+                <div class="mb-3">
+                    <label for="student_phone" class="form-label fw-semibold">Telefone</label>
+                    {{ form.phone }}
+                </div>
+                
+                <div class="mb-3">
+                    <label for="reference" class="form-label fw-semibold">Referência</label>
+                    {{ form.reference }}
+                </div>
+                
+                <button type="submit" class="btn btn-primary w-100 fw-semibold">Salvar Alterações</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
