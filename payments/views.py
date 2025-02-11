@@ -12,6 +12,18 @@ from .utils import (
     verify_unfinished_payment,
     )
 
+from icecream import ic
+
+
+def turn_session_payment_into_active(request, student_id):
+    for payment in Payment.objects.filter(student=student_id):
+        if payment.pk == request.session['payment_id']:
+            ic('turning payment of the session into active')
+            payment.active = True
+        else:
+            payment.active = False
+        payment.save()
+
 
 def add_value(request, student_id):
 
@@ -27,6 +39,7 @@ def add_value(request, student_id):
             return redirect("detail_student", student_id)
         if 'confirm_payment' in request.POST:
             messages.success(request, f'Pagamento para o aluno {student} realizado com sucesso.')
+            turn_session_payment_into_active(request, student_id)
             remove_payment_id_to_session(request=request)
             return redirect("detail_student", student_id)
         if 'delete_value' in request.POST:

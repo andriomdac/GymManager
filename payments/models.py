@@ -2,6 +2,7 @@ from django.db import models
 from students.models import Student
 from django.utils import timezone
 
+
 class PaymentPackage(models.Model):    
     package = models.CharField(max_length=30)
 
@@ -45,6 +46,9 @@ class Payment(models.Model):
         null=True,
         default='No user signature',
         max_length=100
+        )
+    active = models.BooleanField(
+        default=True
         )
     created_at = models.DateTimeField(
         auto_now_add=True

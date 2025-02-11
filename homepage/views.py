@@ -14,6 +14,11 @@ def homepage(request):
         default_date = datetime.today().date()
 
     context = {}
+    total_value_by_method = {
+        "PIX": 0,
+        "DINHEIRO": 0,
+        "CARTÃO": 0
+    }
 
     payments = Payment.objects.filter(payment_date=default_date)
     payments_total_sum = 0
@@ -34,7 +39,6 @@ def homepage(request):
             context['button_day'] = 'primary'
             context['button_month'] = 'secondary'
 
-
         elif 'monthly_payments' in request.POST:
             payments = Payment.objects.filter(
                 payment_date__month=default_date.month,
@@ -43,15 +47,18 @@ def homepage(request):
             context['button_day'] = 'secondary'
             context['button_month'] = 'primary'
 
+
+
     for payment in payments:
-        payments_total_sum += sum(value.value for value in payment.values.all())
+        for value in payment.values.all():
+            total_value_by_method[f"{value.method}"] += value.value
+        payments_total_sum += sum(value.value for value in payment.values.all())        
 
     payments_quantity = payments.count()
     payment_methods = PaymentMethod.objects.all()
 
-    ic(payment_methods)
-    context['payment_methods'] = payment_methods
-    context['payments'] = payments
+    context['total_value_by_method'] = total_value_by_method
+    context['payments'] = payments.order_by('payment_date')
     context['payments_quantity'] = payments_quantity
     context['payments_total_sum'] = payments_total_sum
     context['current_date'] = default_date

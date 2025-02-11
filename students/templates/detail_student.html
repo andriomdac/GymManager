@@ -48,7 +48,13 @@
 <div class="d-flex flex-column flex-md-row p-4 gap-4 py-md-5 align-items-center justify-content-center w-100">
     <div class="w-100">
         {% for payment in payments %}
-            <div class="list-group shadow-lg rounded-4 p-4 mb-4 border border-light bg-white" style="transition: all 0.3s ease-in-out;">
+            <div class="list-group shadow-lg rounded-4 p-4 mb-4 border border-light bg-white position-relative" style="transition: all 0.3s ease-in-out;">
+                {% if payment.active %}
+                    <span class="position-absolute top-0 end-0 m-2 badge bg-success text-white px-2 py-2 rounded-pill shadow-sm" 
+                          style="font-size: 0.85rem; opacity: 0.9;">
+                        <i class="bi bi-check-circle-fill me-1"></i> Ativo
+                    </span><br>
+                {% endif %}
                 <h5 class="fw-bold text-dark mb-3 d-flex align-items-center">
                     <i class="bi bi-calendar-date text-primary me-2"></i> {{ payment.created_at }}
                 </h5>
