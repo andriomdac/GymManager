@@ -78,6 +78,7 @@
         <table class="table table-striped table-hover table-bordered text-center align-middle">
             <thead class="bg-primary text-white">
                 <tr>
+                    <th class="py-3">Data de Registro</th>
                     <th class="py-3">Aluno</th>
                     <th class="py-3">Valor</th>
                     <th class="py-3">Pagamento > Próx. Pagamento</th>
@@ -87,6 +88,7 @@
             <tbody>
                 {% for payment in payments %}
                 <tr>
+                    <td class="fw-semibold text-dark">{{ payment.created_at }}</td>
                     <td class="fw-semibold text-dark">{{ payment.student }}</td>
                     <td class="text-muted">
                         {% for value in payment.values.all %}
