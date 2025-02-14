@@ -27,11 +27,16 @@ def add_value(request, student_id):
             delete_payment_from_id(payment.pk)
             remove_payment_id_to_session(request)
             return redirect("detail_student", student_id)
+
         if 'confirm_payment' in request.POST:
             messages.success(request, f'Pagamento para o aluno {student} realizado com sucesso.')
-            turn_payment_into_active_or_not(request, student_id)
+            turn_payment_into_active_or_not(
+                request=request,
+                payments=Payment.objects.filter(student=student_id)
+                )
             remove_payment_id_to_session(request=request)
             return redirect("detail_student", student_id)
+
         if 'delete_value' in request.POST:
             payment_value_id = int(request.POST.get('payment_value_id'))
             payment_value = get_object_or_404(PaymentValue, id=payment_value_id)

@@ -27,6 +27,11 @@
         </a>
         </div>
         <div class="card-footer bg-light text-center py-3">
+            <a href="{% url 'training_sheet_list' student.pk %}" class="text-decoration-none text-primary fw-semibold">
+                <i class="bi bi-table"></i> Planilha de Treino
+            </a>
+        </div>
+        <div class="card-footer bg-light text-center py-3">
             <a href="{% url 'update_student' student.pk %}" class="text-decoration-none text-warning fw-semibold">
                 <i class="bi bi-pencil-square"></i> Editar Registro do Aluno
             </a>

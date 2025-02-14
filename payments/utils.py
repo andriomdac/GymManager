@@ -48,14 +48,15 @@ def verify_unfinished_payment(request):
     return None
 
 
-def turn_payment_into_active_or_not(request, student_id):
+def turn_payment_into_active_or_not(request, payments):
     '''
     A payment is active if the next payment date is not achived yet by today.
     A payment is not active otherwise.
     '''
     from django.utils import timezone
 
-    for payment in Payment.objects.filter(student=student_id):
+
+    for payment in payments:
         if payment.next_payment_date > timezone.localdate():
             payment.active = True
         else:

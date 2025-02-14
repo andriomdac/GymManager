@@ -5,7 +5,7 @@ from django.db import models
 from datetime import datetime, timedelta
 from icecream import ic
 from django.utils import timezone
-
+from payments.utils import turn_payment_into_active_or_not
 
 def homepage(request):
 
@@ -49,12 +49,17 @@ def homepage(request):
             context['button_month'] = 'primary'
 
 
+    turn_payment_into_active_or_not(
+        request=request,
+        payments=payments
+        )
 
     for payment in payments:
         for value in payment.values.all():
             total_value_by_method[f"{value.method}"] += value.value
         payments_total_sum += sum(value.value for value in payment.values.all())        
 
+    
     payments_quantity = payments.count()
     payment_methods = PaymentMethod.objects.all()
 

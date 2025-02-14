@@ -45,7 +45,7 @@ class WorkoutDay(models.Model):
         related_name='days'
         )
     week_day = models.CharField(
-        choices=WEEK_DAYS, max_length=20
+        choices=WEEK_DAYS, max_length=10
         )
     def __str__(self):
         return self.week_day
