@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="d-flex flex-column flex-md-row p-4 gap-4 py-md-5 align-items-center justify-content-center w-100">
+    <div class="card shadow-lg rounded-4 border-0 overflow-hidden text-center" style="max-width: 400px;">
+        <div class="card-body py-5">
+            <div class="d-flex align-items-center justify-content-center mb-3">
+                <i class="bi bi-exclamation-triangle-fill text-warning" style="font-size: 3rem;"></i>
+            </div>
+            <h5 class="fw-bold text-dark mb-3">Tem certeza?</h5>
+            
+            <div class="card shadow-sm border rounded-3 p-3 mb-4">
+                <h6 class="fw-bold text-dark mb-1">{{ training_sheet.observations }}</h6>
+                <p class="text-muted small mb-1">Aluno: <strong>{{ student.name }}</strong></p>
+                <p class="text-muted small mb-1">Data: <strong class="text-danger">{{ training_sheet.last_modified }}</strong></p>
+                <p class="text-muted small mb-0">Instrutor: <strong>{{ training_sheet.user_signature }}</strong></p>
+            </div>
+            
+            <p class="text-muted small mb-4">Essa ação não pode ser desfeita.</p>
+            
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" name="delete_training_sheet" class="btn btn-danger w-100 py-2 fw-semibold rounded-pill mb-2">
+                    <i class="bi bi-trash3 me-1"></i> Remover Ficha de Treino
+                </button>
+                <a href="{% url 'training_sheet_list' %}" class="btn btn-outline-secondary w-100 py-2 rounded-pill">
+                    <i class="bi bi-x-circle me-1"></i> Cancelar
+                </a>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -47,7 +47,6 @@ def verify_unfinished_payment(request):
             return redirect('list_students')
     return None
 
-
 def turn_payment_into_active_or_not(request, payments):
     '''
     A payment is active if the next payment date is not achived yet by today.

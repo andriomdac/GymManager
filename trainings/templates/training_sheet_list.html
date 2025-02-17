@@ -7,26 +7,33 @@
     <div class="col-md-8">
         {% if messages %}
             {% for message in messages %}
-                <div class="alert alert-{{message.tags}} text-center" role="alert">
+                <div class="alert alert-{{ message.tags }} text-center shadow-sm mb-4 fade show" role="alert">
                     {{ message }}
                 </div>
             {% endfor %}
         {% endif %}
 
-        <div class="card shadow-lg border-0 rounded-3 overflow-hidden">
-            <div class="card-header bg-primary text-white text-center py-3">
-                <h5 class="mb-0">Detalhes do Treino</h5>
-            </div>
+        <div class="card shadow-lg border-0 rounded-4 overflow-hidden mb-4">
+            <div class="card-header bg-gradient text-white text-center py-4" style="background: linear-gradient(135deg, #007bff, #6610f2);">
+                    <a href="{% url 'create_new_training_sheet' %}" class="btn btn-primary shadow-lg fw-bold px-4 py-2 rounded-pill">
+                        <i class="bi bi-file-earmark-plus-fill"></i> Novo
+                    </a>
             <div class="card-body p-4">
                 {% if training_sheets %}
                     <ul class="list-group list-group-flush">
                         {% for sheet in training_sheets %}
                         <li class="list-group-item d-flex justify-content-between align-items-center py-3">
-                            <div>
-                                <h6 class="fw-bold text-dark mb-1">{{ sheet.last_modified }}</h6>
-                                <p class="text-muted small mb-0">{{ sheet.user_signature }}</p>
+                            <a href="{% url 'training_sheet_detail' sheet.pk %}">
+                                <div>
+                                    <h6 class="fw-bold text-dark mb-1">{{ sheet.observations }}</h6>
+                                    <p class="text-primary small mb-0">Instrutor: <strong>{{ sheet.user_signature }}</strong></p>
+                                    <p class="text-muted small mb-0">Última Atualização: <strong>{{ sheet.last_modified }}</strong></p>
+    
+                                </div>
+                            </a>
+                            <div class="btn-group" role="group">
+                                <a href="{% url 'training_sheet_delete' sheet.pk %}" class="btn btn-outline-danger btn-sm"><i class="bi bi-trash-fill"></i></a>
                             </div>
-                            <a href="#" class="btn btn-outline-primary btn-sm">Ver Detalhes</a>
                         </li>
                         {% endfor %}
                     </ul>

@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow-lg p-4 border-0 rounded-3">
+        <!-- Header Section -->
+        <div class="text-center mb-4">
+            <h2 class="display-5 fw-bold text-primary mb-2">Ficha de Treino</h2>
+            <p class="text-muted">{{ sheet.last_modified.date }}</p>
+        </div>
+
+        <!-- Student Section -->
+        <div class="mb-4">
+            <h5 class="fw-bold text-uppercase text-secondary mb-2">Aluno:</h5>
+            <p class="h5 text-dark">{{ student }}</p>
+        </div>
+
+        <!-- Instructor Section -->
+        <div class="mb-4">
+            <h5 class="fw-bold text-uppercase text-secondary mb-2">Instrutor:</h5>
+            <p class="h5 text-dark">{{ sheet.user_signature }}</p>
+            {% if sheet.observations %}
+                <div class="mt-3">
+                    <h6 class="fw-bold text-uppercase text-secondary mb-2">Observações:</h6>
+                    <p class="text-muted">{{ sheet.observations }}</p>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Dynamic Content Section -->
+        <div class="mt-4">
+            {% block days_session %}{% endblock %}
+        </div>
+    </div>
+</div>
+{% endblock %}

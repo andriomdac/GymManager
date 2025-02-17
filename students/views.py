@@ -4,7 +4,7 @@ from django.shortcuts import get_object_or_404
 from .forms import StudentForm
 from django.contrib import messages
 from payments.models import Payment, PaymentValue
-from payments.utils import verify_unfinished_payment
+from payments.utils import verify_unfinished_payment, turn_payment_into_active_or_not
 
 
 def list_students(request):
@@ -64,14 +64,24 @@ def delete_student(request, student_id):
     return render(request, template_name="delete_student.html", context={"student": student})
 
 
+def add_student_to_session(request, student_id):
+    request.session['student_id'] = student_id
+
 def detail_student(request, student_id):
-    student = get_object_or_404(Student, pk=student_id)
-    payments = Payment.objects.filter(student=student).order_by('-created_at')
+    student = get_object_or_404(Student, pk=student_id)    
+    add_student_to_session(request, student_id)
 
     if request.method == "POST":
         if 'delete_payment' in request.POST:
             request.session['payment_id'] = request.POST['payment_id']
             return redirect('delete_payment', student_id)
+
+    payments = Payment.objects.filter(student=student).order_by('-created_at')
+    turn_payment_into_active_or_not(
+        request=request,
+        payments=payments
+        )
+
     context = {
         "student": student,
         "payments": payments

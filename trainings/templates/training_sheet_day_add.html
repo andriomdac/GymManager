@@ -1,0 +1,29 @@
+{% extends "sheet_base.html" %}
+
+
+{% block days_session %}
+
+{% include 'components/_messages.html' %}
+<div class="card shadow-sm border-0 rounded-3">
+    <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h4 class="text-secondary mb-4">Adicionar Dia de Treino</h4>
+            <a class="btn btn-outline-primary" href="{% url 'training_sheet_detail' sheet.pk %}">
+                <i class="fas fa-plus me-2"></i>Voltar
+            </a>
+        </div>
+        <form method="post">
+            {% csrf_token %}
+            
+            <div class="mb-3">
+                {{ form.as_p }}
+            </div>
+
+            <button type="submit" class="btn btn-success w-100">
+                <i class="fas fa-plus me-2"></i>Adicionar Dia
+            </button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

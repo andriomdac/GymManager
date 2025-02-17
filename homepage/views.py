@@ -22,6 +22,10 @@ def homepage(request):
     }
 
     payments = Payment.objects.filter(created_at__date=default_date)
+    turn_payment_into_active_or_not(
+        request=request,
+        payments=payments
+        )
     payments_total_sum = 0
 
     if request.method == "POST":
@@ -49,10 +53,7 @@ def homepage(request):
             context['button_month'] = 'primary'
 
 
-    turn_payment_into_active_or_not(
-        request=request,
-        payments=payments
-        )
+
 
     for payment in payments:
         for value in payment.values.all():

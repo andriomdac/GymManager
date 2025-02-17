@@ -34,6 +34,7 @@ class WorkoutSheet(models.Model):
         default='No user signature',
         max_length=100
         )
+    observations = models.TextField(default='', max_length=200)
     def __str__(self):
         return f"Workout Sheet - {self.student}"
 
@@ -48,19 +49,20 @@ class WorkoutDay(models.Model):
         choices=WEEK_DAYS, max_length=10
         )
     def __str__(self):
-        return self.week_day
-
+        day_dict = dict(WEEK_DAYS)
+        return day_dict.get(self.week_day, self.week_day)
 
 class WorkoutDayExercise(models.Model):
     workout_day = models.ForeignKey(
         to=WorkoutDay,
-        on_delete=models.PROTECT,
+        on_delete=models.CASCADE,
         related_name='exercises'
         )
     workout_exercise = models.ForeignKey(
         to=WorkoutExercice,
         on_delete=models.PROTECT
         )
+    observations = models.TextField(default='', max_length=200)
 
     def __str__(self):
         return f"{self.workout_day} - {self.workout_exercise}"

@@ -1,0 +1,40 @@
+{% extends "sheet_base.html" %}
+
+{% block days_session %}
+
+<div class="mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h4 class="text-secondary mb-0">Dias de Treino</h4>
+        <a class="btn btn-outline-primary btn-sm" href="{% url 'training_sheet_day_add' sheet.pk %}">
+            <i class="fas fa-plus me-2"></i>Adicionar dia
+        </a>
+    </div>
+
+    {% for day in training_days %}
+    <div class="card mt-3 border-primary shadow-sm">
+        <div class="card-header bg-primary d-flex justify-content-between align-items-center">
+            <h5 class="mb-0 text-white">{{ day }}</h5>
+            <a class="btn btn-danger btn-sm" href="{% url 'training_sheet_day_delete' day.pk %}">
+                <i class="fas fa-trash me-1"></i>Excluir
+            </a>
+        </div>
+
+        <div class="card-body">
+            {% for exercise in day.exercises.all %}
+            <div class="mb-3">
+                <h6 class="fw-bold text-dark mb-2">{{ exercise.workout_exercise }}</h6>
+                {% if exercise.observations %}
+                <p class="text-muted small mb-0">{{ exercise.observations }}</p>
+                {% endif %}
+            </div>
+            {% if not forloop.last %}
+            <hr class="my-3">
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}
